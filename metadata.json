@@ -1,0 +1,7 @@
+{
+  "name": "Sorteo Navideño",
+  "description": "An application for users to register and participate in a Christmas car raffle. Users can create an account, log in, fill out a detailed participation form, and view their profile with raffle tickets.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
