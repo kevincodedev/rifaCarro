@@ -45,10 +45,21 @@ export class AuthService {
     }
   }
 
-  register(email: string): void {
-    this.isAuthenticated.set(true);
-    this.userEmail.set(email);
-    this.router.navigate(['/raffle']);
+  async register(email: string): Promise<boolean> {
+    try {
+      // Hacemos la petición POST solo con el email
+      await firstValueFrom(
+        this.http.post(`${environment.apiUrl}/validate/email`, { email })
+      );
+      // Si la petición es exitosa (código 2xx), consideramos el registro válido
+      // y redirigimos al login.
+      this.router.navigate(['/login']);
+      return true;
+    } catch (error) {
+      console.error('Registration failed', error);
+      // Si hay un error (ej: el correo ya existe), devolvemos false
+      return false;
+    }
   }
 
   logout(): void {
@@ -62,4 +73,6 @@ export class AuthService {
   saveUserName(name: string): void {
     this.userName.set(name);
   }
+
+
 }

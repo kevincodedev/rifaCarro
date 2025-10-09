@@ -1,4 +1,3 @@
-
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -14,12 +13,24 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent {
   email = signal('');
+  
+  registerError = signal<string | null>(null);
+  registerSuccess = signal<boolean>(false);
 
   private authService = inject(AuthService);
 
-  register(): void {
+  async register(): Promise<void> {
     if (this.email()) {
-      this.authService.register(this.email());
+      this.registerError.set(null);
+      this.registerSuccess.set(false);
+
+      const success = await this.authService.register(this.email());
+      
+      if (success) {
+        this.registerSuccess.set(true);
+      } else {
+        this.registerError.set('El correo electrónico ya está en uso o no es válido.');
+      }
     }
   }
 }
