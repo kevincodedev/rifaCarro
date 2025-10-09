@@ -1,8 +1,24 @@
+// src/interceptors/auth.interceptor.ts
+
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  // For now, it just passes the request through.
-  // In the future, this is where we'll add authentication headers.
-  const clonedRequest = req.clone();
-  return next(clonedRequest);
+  // Inyectamos el AuthService
+  const authService = inject(AuthService);
+  const authToken = authService.authToken();
+
+  // Si hay un token, clonamos la petición y añadimos la cabecera de autorización
+  if (authToken) {
+    const clonedRequest = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
+    return next(clonedRequest);
+  }
+
+  // Si no hay token, dejamos pasar la petición original
+  return next(req);
 };
