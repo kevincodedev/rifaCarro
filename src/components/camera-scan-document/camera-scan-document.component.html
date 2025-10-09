@@ -1,0 +1,36 @@
+<div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden relative z-10 p-8 sm:p-10 text-center">
+  
+  <!-- PASO 1: Capturar Foto -->
+  <div [hidden]="showPreview()">
+    <h2 class="font-christmas text-4xl text-red-600 mb-2">Toma una Foto</h2>
+    <p class="text-gray-600 mb-6">Apunta la cámara a tu cédula de identidad y asegúrate de que encaje en el marco.</p>
+
+    <!-- Contenedor de la cámara -->
+    <div id="camera-container" class="bg-gray-800">
+      <video #cameraFeed id="camera-feed" autoplay playsinline></video>
+      <div id="overlay"></div>
+    </div>
+    
+    <!-- Mensaje de Error -->
+    @if (cameraError()) {
+      <p class="text-red-500 mt-4">{{ cameraError() }}</p>
+    }
+    
+    <button (click)="capturePhoto()" class="mt-6 w-full bg-red-600 text-white py-3 px-4 rounded-md hover:bg-red-700 font-bold text-lg">Capturar Foto</button>
+  </div>
+
+  <!-- PASO 2: Vista Previa de la Foto -->
+  <div [hidden]="!showPreview()">
+    <h2 class="font-christmas text-4xl text-red-600 mb-2">Verifica la Foto</h2>
+    <p class="text-gray-600 mb-6">¿La imagen es clara y legible?</p>
+    
+    <!-- El canvas mostrará la foto capturada -->
+    <canvas #photoCanvas id="photo-canvas" class="rounded-lg border w-full max-w-sm mx-auto"></canvas>
+    
+    <div class="mt-6 flex gap-4">
+      <button (click)="retakePhoto()" class="flex-1 bg-gray-200 text-gray-800 py-3 px-4 rounded-md hover:bg-gray-300 font-bold">Tomar de Nuevo</button>
+      <button (click)="confirmPhoto()" class="flex-1 bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 font-bold">Confirmar y Continuar</button>
+    </div>
+  </div>
+
+</div>
