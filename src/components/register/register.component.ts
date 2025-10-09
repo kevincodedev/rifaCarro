@@ -14,12 +14,11 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent {
   email = signal('');
-  password = signal('');
 
   private authService = inject(AuthService);
 
   register(): void {
-    if (this.email() && this.password()) {
+    if (this.email()) {
       this.authService.register(this.email());
     }
   }
