@@ -1,4 +1,3 @@
-
 import '@angular/compiler';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withHashLocation } from '@angular/router';
@@ -27,3 +26,4 @@ bootstrapApplication(AppRoot, {
 }).catch((err) => console.error(err));
 
 // AI Studio always uses an `index.tsx` file for all project types.
+

@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, ViewChild, ElementRef, OnInit, OnDestroy, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router'; // Importar ActivatedRoute
+import { RegistrationFlowService } from '../../services/registration-flow.service';
 
 @Component({
   selector: 'app-camera-scan-document',
@@ -15,13 +16,16 @@ export class CameraScanDocumentComponent implements OnInit, OnDestroy {
   @ViewChild('photoCanvas') canvasElement?: ElementRef<HTMLCanvasElement>;
 
   private readonly router = inject(Router);
+  // Inyectamos el servicio del flujo de registro
+  private readonly registrationFlowService = inject(RegistrationFlowService);
 
   showPreview = signal(false);
   cameraError = signal<string | null>(null);
-
   private stream: MediaStream | null = null;
 
   async ngOnInit() {
+    // Al iniciar, el guardián ya ha validado y guardado el email en el servicio.
+    // Simplemente iniciamos la cámara.
     await this.startCamera();
   }
 
@@ -41,7 +45,7 @@ export class CameraScanDocumentComponent implements OnInit, OnDestroy {
       }
     } catch (err) {
       console.error("Error al acceder a la cámara: ", err);
-      this.cameraError.set("No se pudo acceder a la cámara. Asegúrate de dar los permisos necesarios en tu navegador.");
+      this.cameraError.set("No se pudo acceder a la cámara. Asegúrate de dar los permisos necesarios.");
     }
   }
 
@@ -52,14 +56,13 @@ export class CameraScanDocumentComponent implements OnInit, OnDestroy {
 
     const context = canvas.getContext('2d');
     if (!context) return;
-
+    
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     this.showPreview.set(true);
-    this.stopCamera(); 
+    this.stopCamera();
   }
 
   async retakePhoto() {
@@ -72,8 +75,10 @@ export class CameraScanDocumentComponent implements OnInit, OnDestroy {
 
     const photoDataUrl = canvas.toDataURL('image/jpeg');
     
-    localStorage.setItem('idCardPhoto', photoDataUrl);
+    // Guardamos la foto en el servicio para que el formulario la pueda usar.
+    this.registrationFlowService.idCardPhoto.set(photoDataUrl);
     
+    // Navegamos al formulario del sorteo.
     this.router.navigate(['/raffle']);
   }
 

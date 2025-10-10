@@ -1,115 +1,110 @@
-<div class="bg-white rounded-2xl shadow-2xl p-6 sm:p-10 w-full max-w-3xl my-8 animate-fade-in">
-  <div class="flex justify-center mb-6">
-    <svg class="h-16 w-16 text-blue-800" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-    </svg>
-  </div>
-
-  <div class="text-center">
-    <img src="https://i.ibb.co/6rC64xL/delorean.png" alt="Car prize" class="w-full max-w-md mx-auto rounded-lg shadow-md mb-6">
-    <h1 class="font-festive text-5xl text-red-600">¡Sorteo Navideño!</h1>
-    <p class="mt-2 text-gray-600">Regístrate y gana un automóvil 0km</p>
-  </div>
-
-  <form [formGroup]="raffleForm" (ngSubmit)="submitForm()" class="mt-8 space-y-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label for="documentType" class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
-        <select id="documentType" formControlName="documentType" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
-          @for(type of documentTypes; track type) {
-            <option [value]="type">{{ type }}</option>
-          }
-        </select>
-      </div>
-      <div>
-        <label for="documentNumber" class="block text-sm font-medium text-gray-700">N° de Documento</label>
-        <input type="text" id="documentNumber" formControlName="documentNumber" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 bg-white">
-      </div>
+<main class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden relative z-10">
+  <div class="p-6 sm:p-10">
+    <div class="text-center mb-8">
+      <img src="https://i.ibb.co/6rC64xL/delorean.png" alt="Auto del sorteo" class="w-full h-auto rounded-lg shadow-md object-cover">
+      <h1 class="font-christmas text-4xl sm:text-5xl text-red-600 mt-4">¡Completa tu Registro!</h1>
+      <p class="text-gray-600 mt-2 text-lg">Llena tus datos para participar en el sorteo.</p>
     </div>
     
-    <div>
-      <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
-      <input type="email" id="email" formControlName="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 bg-gray-100" readonly>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label for="firstName" class="block text-sm font-medium text-gray-700">Primer Nombre</label>
-        <input type="text" id="firstName" formControlName="firstName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 bg-white">
-      </div>
-      <div>
-        <label for="secondName" class="block text-sm font-medium text-gray-700">Segundo Nombre (Opcional)</label>
-        <input type="text" id="secondName" formControlName="secondName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 bg-white">
-      </div>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label for="firstLastName" class="block text-sm font-medium text-gray-700">Primer Apellido</label>
-        <input type="text" id="firstLastName" formControlName="firstLastName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 bg-white">
-      </div>
-      <div>
-        <label for="secondLastName" class="block text-sm font-medium text-gray-700">Segundo Apellido (Opcional)</label>
-        <input type="text" id="secondLastName" formControlName="secondLastName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 bg-white">
-      </div>
-    </div>
-
-    <div>
-      <label for="state" class="block text-sm font-medium text-gray-700">Estado</label>
-      <select id="state" formControlName="state" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
-        <option value="" disabled>Selecciona un estado</option>
-        @for(state of states; track state) {
-          <option [value]="state">{{ state }}</option>
+    <form [formGroup]="raffleForm" (ngSubmit)="submitForm()">
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700">Foto de la Cédula</label>
+        @if(idPhotoPreview()){
+          <img [src]="idPhotoPreview()" alt="Vista previa de la cédula" class="mt-2 rounded-md max-h-48 w-auto mx-auto border"/>
         }
-      </select>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label for="municipality" class="block text-sm font-medium text-gray-700">Municipio</label>
-        <input type="text" id="municipality" formControlName="municipality" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 bg-white">
+        <p class="text-center text-xs mt-2 text-gray-500">
+          Foto capturada en el paso anterior. 
+          <a routerLink="/camera-scan" class="text-red-600 underline">Tomar de nuevo</a>.
+        </p>
       </div>
-      <div>
-        <label for="parish" class="block text-sm font-medium text-gray-700">Parroquia</label>
-        <input type="text" id="parish" formControlName="parish" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 bg-white">
-      </div>
-    </div>
 
-    <div>
-      <label for="address" class="block text-sm font-medium text-gray-700">Dirección</label>
-      <input type="text" id="address" formControlName="address" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 bg-white">
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-gray-700">Número de Teléfono</label>
-        <div class="mt-1 flex rounded-md shadow-sm">
-          <select formControlName="phoneCode" class="block px-3 py-2 border border-r-0 border-gray-300 bg-gray-50 text-gray-500 rounded-l-md focus:outline-none focus:ring-green-500 focus:border-green-500">
-            <option>+58</option>
-            <option>+1</option>
-            <option>+44</option>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+        <div>
+          <label for="doc-type" class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
+          <select id="doc-type" formControlName="tipoDocumentoIdentidad" class="input-style">
+              <option value="V">Venezolana</option>
+              <option value="E">Extranjero</option>
           </select>
-          <input type="text" formControlName="phoneNumber" class="flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-none rounded-r-md focus:ring-green-500 focus:border-green-500 bg-white">
+        </div>
+        <div>
+          <label for="doc-number" class="block text-sm font-medium text-gray-700">Nº de Documento</label>
+          <input type="text" id="doc-number" formControlName="numeroDocumento" class="input-style">
+        </div>
+
+        <div>
+          <label for="first-name" class="block text-sm font-medium text-gray-700">Primer Nombre</label>
+          <input type="text" id="first-name" formControlName="primerNombre" class="input-style">
+        </div>
+        <div>
+          <label for="second-name" class="block text-sm font-medium text-gray-700">Segundo Nombre <span class="text-gray-500">(Opcional)</span></label>
+          <input type="text" id="second-name" formControlName="segundoNombre" class="input-style">
+        </div>
+        <div>
+          <label for="last-name" class="block text-sm font-medium text-gray-700">Primer Apellido</label>
+          <input type="text" id="last-name" formControlName="primerApellido" class="input-style">
+        </div>
+        <div>
+          <label for="second-last-name" class="block text-sm font-medium text-gray-700">Segundo Apellido <span class="text-gray-500">(Opcional)</span></label>
+          <input type="text" id="second-last-name" formControlName="segundoApellido" class="input-style">
+        </div>
+
+        <div class="md:col-span-2">
+          <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+          <input type="email" id="email" formControlName="email" class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm sm:text-sm" readonly>
+        </div>
+        
+        <div>
+          <label for="fecha-nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento</label>
+          <input type="date" id="fecha-nacimiento" formControlName="fechaNacimiento" class="input-style">
+        </div>
+        <div>
+          <label for="sexo" class="block text-sm font-medium text-gray-700">Sexo</label>
+          <select id="sexo" formControlName="sexo" class="input-style">
+            <option value="" disabled>Seleccione...</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Masculino">Masculino</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="state" class="block text-sm font-medium text-gray-700">Estado</label>
+          <select id="state" formControlName="estado" (change)="onStateChange($event)" class="input-style">
+            <option [ngValue]="null" disabled>Selecciona un estado</option>
+            @for(state of allStates(); track state.id) {
+              <option [value]="state.id">{{ state.nombre }}</option>
+            }
+          </select>
+        </div>
+        <div>
+          <label for="ciudad" class="block text-sm font-medium text-gray-700">Ciudad/Municipio</label>
+          <select id="ciudad" formControlName="ciudad" class="input-style">
+            <option [ngValue]="null" disabled>Selecciona una ciudad</option>
+             @for(city of citiesOfSelectedState(); track city.id) {
+              <option [value]="city.id">{{ city.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="md:col-span-2">
+            <label for="address" class="block text-sm font-medium text-gray-700">Dirección</label>
+            <input type="text" id="address" formControlName="direccion" class="input-style">
+        </div>
+
+        <div class="md:col-span-2" formArrayName="telefonos">
+            <label class="block text-sm font-medium text-gray-700">Número de Teléfono</label>
+            @for(phone of telefonos.controls; track $index){
+              <div [formGroupName]="$index" class="mt-1">
+                <input type="tel" formControlName="numero" class="input-style" placeholder="Ej: 04121234567">
+              </div>
+            }
         </div>
       </div>
-
-    <div>
-      <label for="idPhoto" class="block text-sm font-medium text-gray-700">Foto de la Cédula</label>
-      <input type="file" id="idPhoto" (change)="onFileChange($event)" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
-    </div>
-
-    <div class="flex items-start">
-      <div class="flex items-center h-5">
-        <input id="terms" formControlName="terms" type="checkbox" class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+      
+      <div class="mt-8">
+        <button type="submit" [disabled]="raffleForm.invalid" class="w-full flex justify-center items-center py-3 px-4 rounded-lg shadow-lg text-lg font-bold text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400 christmas-button-animation">
+          Finalizar Registro y Participar
+        </button>
       </div>
-      <div class="ml-3 text-sm">
-        <label for="terms" class="font-medium text-gray-700">Acepto los <a href="#" class="text-green-600 hover:underline">Términos y Condiciones</a></label>
-      </div>
-    </div>
-    
-    <div>
-      <button type="submit" [disabled]="raffleForm.invalid" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-green-300">
-        ¡Participar Ahora!
-      </button>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
+</main>
