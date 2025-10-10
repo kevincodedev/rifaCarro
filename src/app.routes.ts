@@ -14,11 +14,12 @@ export const APP_ROUTES: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'camera-scan', component: CameraScanDocumentComponent, canActivate: [registrationGuard] },
-  { path: 'raffle', component: RaffleComponent, canActivate: [registrationGuard] },
+  //{ path: 'raffle', component: RaffleComponent, canActivate: [registrationGuard] },
+  { path: 'raffle', component: RaffleComponent },
   { path: 'success', component: SuccessComponent, canActivate: [authGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '/login' }
+  { path: '', redirectTo: '/raffle', pathMatch: 'full' },
+  { path: '**', redirectTo: '/raffle' }
 ];
 

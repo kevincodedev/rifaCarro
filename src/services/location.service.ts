@@ -5,7 +5,7 @@ import { Observable, shareReplay } from 'rxjs';
 export interface State {
   id: number;
   nombre: string;
-  ciudades: City[];
+  ciudads: City[];
 }
 
 export interface City {

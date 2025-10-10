@@ -14,6 +14,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   styleUrls: ['./raffle.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class RaffleComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
@@ -24,7 +25,6 @@ export class RaffleComponent implements OnInit {
   raffleForm!: FormGroup;
   idPhotoPreview = signal<SafeUrl | null>(null);
   
-  // Señales para los selects dinámicos
   allStates = signal<State[]>([]);
   citiesOfSelectedState = signal<City[]>([]);
   
@@ -46,23 +46,20 @@ export class RaffleComponent implements OnInit {
       segundoApellido: [''],
       fechaNacimiento: ['', Validators.required],
       sexo: ['', Validators.required],
-      pais: [1, Validators.required], // Hardcodeado a Venezuela (1)
+      pais: [1, Validators.required], 
       estado: [null, Validators.required],
-      ciudad: [null, Validators.required], // Cambiado de 'parish' a 'ciudad'
+      ciudad: [null, Validators.required], 
       direccion: ['', Validators.required],
-      telefonos: this.fb.array([this.createPhoneGroup()]) // Usamos un FormArray
+      telefonos: this.fb.array([this.createPhoneGroup()]) 
     });
 
-    // Cargar los estados
     this.loadStates();
   }
 
-  // Helper para acceder al FormArray de teléfonos
   get telefonos(): FormArray {
     return this.raffleForm.get('telefonos') as FormArray;
   }
 
-  // Crea un nuevo FormGroup para un teléfono
   createPhoneGroup(): FormGroup {
     return this.fb.group({
       numero: ['', Validators.required]
@@ -71,15 +68,17 @@ export class RaffleComponent implements OnInit {
 
   loadStates(): void {
     this.locationService.getStatesByCountry(1).subscribe(states => {
-      this.allStates.set(states);
+    this.allStates.set(states);
+    console.log('Estados cargados:', states);
     });
   }
 
   onStateChange(event: Event): void {
     const stateId = (event.target as HTMLSelectElement).value;
     const selectedState = this.allStates().find(s => s.id === +stateId);
-    this.citiesOfSelectedState.set(selectedState ? selectedState.ciudades : []);
-    this.raffleForm.get('ciudad')?.setValue(null); // Resetea la ciudad al cambiar de estado
+    console.log('Estado seleccionado, objeto:',  selectedState.ciudads  );
+    this.citiesOfSelectedState.set(selectedState ? selectedState.ciudads : []);
+    this.raffleForm.get('ciudad')?.setValue(null); 
   }
 
   async submitForm(): Promise<void> {
@@ -91,7 +90,6 @@ export class RaffleComponent implements OnInit {
     const formValue = this.raffleForm.value;
     const photoDataUrl = this.registrationFlowService.idCardPhoto();
     
-    // Construimos el payload final
     const payload = {
       idStatus: 1,
       numeroDocumento: formValue.numeroDocumento,
@@ -103,24 +101,18 @@ export class RaffleComponent implements OnInit {
       fechaNacimiento: formValue.fechaNacimiento,
       email: formValue.email,
       idCargo: 2,
-      telefono: formValue.telefonos, // El FormArray ya tiene el formato correcto [{numero: '...'}]
-      roles: [{ rol: "ROLE_ANALISTA" }], // Valor fijo como en el ejemplo
+      telefono: formValue.telefonos, 
+      roles: [{ rol: "CLIENTE" }], 
       sexo: formValue.sexo,
       direccion: formValue.direccion,
       pais: formValue.pais,
-      estado: +formValue.estado, // Asegurarse que sea número
-      ciudad: +formValue.ciudad, // Asegurarse que sea número
-      // Aquí se enviaría la foto. Por ahora, solo tenemos el DataURL.
-      // fotoCedula: this.dataURLtoFile(photoDataUrl!, 'cedula.jpg'),
+      estado: +formValue.estado, 
+      ciudad: +formValue.ciudad, 
     };
     
     console.log('Payload a enviar:', payload);
 
-    // Aquí iría la llamada a la API para enviar el formulario.
-    // await this.http.post('...', payload).toPromise();
-
-    // Limpiamos el flujo y navegamos al perfil
     this.registrationFlowService.resetFlow();
-    this.router.navigate(['/profile']); // Redirige al perfil al finalizar
+    this.router.navigate(['/profile']); 
   }
 }

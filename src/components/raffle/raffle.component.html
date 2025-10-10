@@ -80,7 +80,7 @@
           <select id="ciudad" formControlName="ciudad" class="input-style">
             <option [ngValue]="null" disabled>Selecciona una ciudad</option>
              @for(city of citiesOfSelectedState(); track city.id) {
-              <option [value]="city.id">{{ city.nombre }}</option>
+              <option [value]="city.id">{{ city.Nombre }}</option>
             }
           </select>
         </div>
