@@ -1,9 +1,8 @@
 import '@angular/compiler';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, withHashLocation } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, provideZonelessChangeDetection } from '@angular/core';
-
 import { AppComponent } from './src/app.component';
 import { APP_ROUTES } from './src/app.routes';
 import { authInterceptor } from './src/interceptors/auth.interceptor';
@@ -20,7 +19,7 @@ class AppRoot {}
 bootstrapApplication(AppRoot, {
   providers: [
     provideZonelessChangeDetection(),
-    provideRouter(APP_ROUTES, withHashLocation()),
+    provideRouter(APP_ROUTES),
     provideHttpClient(withInterceptors([authInterceptor])),
   ],
 }).catch((err) => console.error(err));
