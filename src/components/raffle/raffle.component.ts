@@ -29,7 +29,8 @@ export class RaffleComponent implements OnInit {
   citiesOfSelectedState = signal<City[]>([]);
   
   ngOnInit(): void {
-    const email = this.registrationFlowService.userEmail();
+    //const email = this.registrationFlowService.userEmail();
+    const email = "mendozarangelkevindejesus@gmail.com";
     const photoDataUrl = this.registrationFlowService.idCardPhoto();
     
     if (photoDataUrl) {
