@@ -7,10 +7,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RegistrationFlowService {
   userEmail = signal<string | null>(null);
-  idCardPhoto = signal<string | null>(null);
+  idCardPhoto = signal<Blob | null>(null);
 
 constructor(protected http: HttpClient,
    ) {
+    console.log(this.idCardPhoto);
    }
 
   canAccessRegistrationFlow(): boolean {
@@ -22,7 +23,12 @@ constructor(protected http: HttpClient,
   }
 
   addPhoto(id: number) {
-    const formData = { photo: this.idCardPhoto() }
+    const formData = new FormData();
+    const photo = this.idCardPhoto();
+    if (photo) {
+      formData.append('photo', photo);
+    }
+    console.log(formData);
     return this.http.post(`${environment.apiUrl}/user/upload/photo/${id}`, formData);
   }
   

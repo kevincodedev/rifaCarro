@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, ViewChild, ElementRef, OnInit, OnDestroy, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router'; // Importar ActivatedRoute
+import { Router } from '@angular/router';
 import { RegistrationFlowService } from '../../services/registration-flow.service';
 
 @Component({
@@ -16,7 +16,6 @@ export class CameraScanDocumentComponent implements OnInit, OnDestroy {
   @ViewChild('photoCanvas') canvasElement?: ElementRef<HTMLCanvasElement>;
 
   private readonly router = inject(Router);
-  // Inyectamos el servicio del flujo de registro
   private readonly registrationFlowService = inject(RegistrationFlowService);
 
   showPreview = signal(false);
@@ -24,8 +23,6 @@ export class CameraScanDocumentComponent implements OnInit, OnDestroy {
   private stream: MediaStream | null = null;
 
   async ngOnInit() {
-    // Al iniciar, el guardián ya ha validado y guardado el email en el servicio.
-    // Simplemente iniciamos la cámara.
     await this.startCamera();
   }
 
@@ -72,15 +69,18 @@ export class CameraScanDocumentComponent implements OnInit, OnDestroy {
   confirmPhoto() {
     const canvas = this.canvasElement?.nativeElement;
     if (!canvas) return;
-
-    const photoDataUrl = canvas.toDataURL('image/jpeg');
-    
-    // Guardamos la foto en el servicio para que el formulario la pueda usar.
-    this.registrationFlowService.idCardPhoto.set(photoDataUrl);
-    console.log("Foto de documento guardada en el servicio.");
-    console.log("photoDataUrl:", photoDataUrl);
-    // Navegamos al formulario del sorteo.
-    this.router.navigate(['/raffle']);
+  
+    canvas.toBlob((blob) => {
+      if (blob) {
+        // Guardamos el Blob en el servicio para que el formulario la pueda usar.
+        this.registrationFlowService.idCardPhoto.set(blob);
+        //UploadFile
+        console.log("Foto de documento guardada en el servicio como Blob.");
+        // Navegamos al formulario del sorteo.
+        console.log(blob);
+        this.router.navigate(['/raffle']);
+      }
+    }, 'image/jpeg');
   }
 
   private stopCamera() {

@@ -41,15 +41,16 @@ export class RaffleComponent implements OnInit {
   ngOnInit(): void {
     //const email = this.registrationFlowService.userEmail();
     const email = "mendozarangelkevindejesus@gmail.com";
-    const photoDataUrl = this.registrationFlowService.idCardPhoto();
+    const photoBlob = this.registrationFlowService.idCardPhoto();
 
-    if (photoDataUrl) {
-      this.idPhotoPreview.set(this.sanitizer.bypassSecurityTrustUrl(photoDataUrl));
+    if (photoBlob instanceof Blob) {
+      const objectUrl = URL.createObjectURL(photoBlob);
+      this.idPhotoPreview.set(this.sanitizer.bypassSecurityTrustUrl(objectUrl));
     }
 
     this.raffleForm = this.fb.group({
       tipoDocumentoIdentidad: ['V', Validators.required],
-      numeroDocumento: ['29617736', Validators.required],
+      numeroDocumento: ['31654812', Validators.required],
       email: [email, [Validators.required, Validators.email]],
       primerNombre: ['Kevin', Validators.required],
       segundoNombre: [''],
@@ -77,14 +78,12 @@ export class RaffleComponent implements OnInit {
   loadStates(): void {
     this.locationService.getStatesByCountry(1).subscribe(states => {
       this.allStates.set(states);
-      console.log('Estados cargados:', states);
     });
   }
 
   onStateChange(event: Event): void {
     const stateId = (event.target as HTMLSelectElement).value;
     const selectedState = this.allStates().find(s => s.id === +stateId);
-    console.log('Estado seleccionado, objeto:', selectedState.ciudads);
     this.citiesOfSelectedState.set(selectedState ? selectedState.ciudads : []);
     this.raffleForm.get('ciudad')?.setValue(null);
   }
@@ -99,7 +98,6 @@ export class RaffleComponent implements OnInit {
     this.loading = true;
 
     const formValue = this.raffleForm.value;
-    const photoDataUrl = this.registrationFlowService.idCardPhoto();
 
     const payload = {
       idStatus: 1,
@@ -124,24 +122,26 @@ export class RaffleComponent implements OnInit {
       ciudad: +formValue.ciudad,
     };
 
-    console.log('Payload a enviar:', payload);
+
+    //this.clientService.addPhoto(28).subscribe()
+
 
     this.clientService.add(payload).subscribe({
       next: ((resp) => {
-      
+
         this.toastrService.success('Información registrada con éxito');
         this.id = (resp as any).id;
-        console.log(resp);
-        console.log(this.id);
       }),
       error: (error) => {
         this.loading = false;
         this.toastrService.error('Error al registrar cliente:', error.error.msg);
       },
-      complete: () => this.clientService.addPhoto(this.id)
-    });
 
-    this.registrationFlowService.resetFlow();
-    this.router.navigate(['/profile']);
+      complete: () => {
+        this.clientService.addPhoto(this.id).subscribe();
+        this.registrationFlowService.resetFlow();
+        this.router.navigate(['/profile']);
+      }
+    });
   }
 }
