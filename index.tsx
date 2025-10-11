@@ -6,6 +6,8 @@ import { ChangeDetectionStrategy, Component, provideZonelessChangeDetection } fr
 import { AppComponent } from './src/app.component';
 import { APP_ROUTES } from './src/app.routes';
 import { authInterceptor } from './src/interceptors/auth.interceptor';
+import { provideToastr } from 'ngx-toastr';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +23,8 @@ bootstrapApplication(AppRoot, {
     provideZonelessChangeDetection(),
     provideRouter(APP_ROUTES),
     provideHttpClient(withInterceptors([authInterceptor])),
+    provideAnimations(),
+    provideToastr(),
   ],
 }).catch((err) => console.error(err));
 

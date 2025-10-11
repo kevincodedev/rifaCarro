@@ -52,19 +52,7 @@
           <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
           <input type="email" id="email" formControlName="email" class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm sm:text-sm" readonly>
         </div>
-        
-        <div>
-          <label for="fecha-nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento</label>
-          <input type="date" id="fecha-nacimiento" formControlName="fechaNacimiento" class="input-style">
-        </div>
-        <div>
-          <label for="sexo" class="block text-sm font-medium text-gray-700">Sexo</label>
-          <select id="sexo" formControlName="sexo" class="input-style">
-            <option value="" disabled>Seleccione...</option>
-            <option value="Femenino">Femenino</option>
-            <option value="Masculino">Masculino</option>
-          </select>
-        </div>
+      
 
         <div>
           <label for="state" class="block text-sm font-medium text-gray-700">Estado</label>
@@ -90,18 +78,17 @@
             <input type="text" id="address" formControlName="direccion" class="input-style">
         </div>
 
-        <div class="md:col-span-2" formArrayName="telefonos">
-            <label class="block text-sm font-medium text-gray-700">Número de Teléfono</label>
-            @for(phone of telefonos.controls; track $index){
-              <div [formGroupName]="$index" class="mt-1">
-                <input type="tel" formControlName="numero" class="input-style" placeholder="Ej: 04121234567">
-              </div>
-            }
+        <div class="md:col-span-2">
+          <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
+          <input type="text" id="phone" formControlName="telefono" class="input-style"
+            placeholder="Ejemplo: 04141234567">
+          <p class="text-xs text-gray-500 mt-1">Ingresa tu número de teléfono con código de área.</p>
         </div>
+
       </div>
       
       <div class="mt-8">
-        <button type="submit" [disabled]="raffleForm.invalid" class="w-full flex justify-center items-center py-3 px-4 rounded-lg shadow-lg text-lg font-bold text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400 christmas-button-animation">
+        <button type="submit" [disabled]="raffleForm.invalid || loading" class="w-full flex justify-center items-center py-3 px-4 rounded-lg shadow-lg text-lg font-bold text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400 christmas-button-animation">
           Finalizar Registro y Participar
         </button>
       </div>

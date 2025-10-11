@@ -77,7 +77,8 @@ export class CameraScanDocumentComponent implements OnInit, OnDestroy {
     
     // Guardamos la foto en el servicio para que el formulario la pueda usar.
     this.registrationFlowService.idCardPhoto.set(photoDataUrl);
-    
+    console.log("Foto de documento guardada en el servicio.");
+    console.log("photoDataUrl:", photoDataUrl);
     // Navegamos al formulario del sorteo.
     this.router.navigate(['/raffle']);
   }

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RegistrationFlowService } from '../../services/registration-flow.service';
 import { LocationService, State, City } from '../../services/location.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-raffle',
@@ -24,41 +25,47 @@ export class RaffleComponent implements OnInit {
 
   raffleForm!: FormGroup;
   idPhotoPreview = signal<SafeUrl | null>(null);
-  
+
   allStates = signal<State[]>([]);
   citiesOfSelectedState = signal<City[]>([]);
-  
+  loading = false;
+  id: number = 0;
+
+  constructor(
+    private clientService: RegistrationFlowService,
+    private toastrService: ToastrService
+  ) {
+
+  }
+
   ngOnInit(): void {
     //const email = this.registrationFlowService.userEmail();
     const email = "mendozarangelkevindejesus@gmail.com";
     const photoDataUrl = this.registrationFlowService.idCardPhoto();
-    
+
     if (photoDataUrl) {
       this.idPhotoPreview.set(this.sanitizer.bypassSecurityTrustUrl(photoDataUrl));
     }
 
     this.raffleForm = this.fb.group({
       tipoDocumentoIdentidad: ['V', Validators.required],
-      numeroDocumento: ['', Validators.required],
+      numeroDocumento: ['29617736', Validators.required],
       email: [email, [Validators.required, Validators.email]],
-      primerNombre: ['', Validators.required],
+      primerNombre: ['Kevin', Validators.required],
       segundoNombre: [''],
-      primerApellido: ['', Validators.required],
+      primerApellido: ['Mendoza', Validators.required],
       segundoApellido: [''],
-      fechaNacimiento: ['', Validators.required],
-      sexo: ['', Validators.required],
-      pais: [1, Validators.required], 
       estado: [null, Validators.required],
-      ciudad: [null, Validators.required], 
-      direccion: ['', Validators.required],
-      telefonos: this.fb.array([this.createPhoneGroup()]) 
+      ciudad: [null, Validators.required],
+      direccion: ['El Paraiso, Caracas', Validators.required],
+      telefono: ['04241696699', Validators.required]
     });
 
     this.loadStates();
   }
 
-  get telefonos(): FormArray {
-    return this.raffleForm.get('telefonos') as FormArray;
+  get telefono(): FormArray {
+    return this.raffleForm.get('telefono') as FormArray;
   }
 
   createPhoneGroup(): FormGroup {
@@ -69,28 +76,31 @@ export class RaffleComponent implements OnInit {
 
   loadStates(): void {
     this.locationService.getStatesByCountry(1).subscribe(states => {
-    this.allStates.set(states);
-    console.log('Estados cargados:', states);
+      this.allStates.set(states);
+      console.log('Estados cargados:', states);
     });
   }
 
   onStateChange(event: Event): void {
     const stateId = (event.target as HTMLSelectElement).value;
     const selectedState = this.allStates().find(s => s.id === +stateId);
-    console.log('Estado seleccionado, objeto:',  selectedState.ciudads  );
+    console.log('Estado seleccionado, objeto:', selectedState.ciudads);
     this.citiesOfSelectedState.set(selectedState ? selectedState.ciudads : []);
-    this.raffleForm.get('ciudad')?.setValue(null); 
+    this.raffleForm.get('ciudad')?.setValue(null);
   }
 
   async submitForm(): Promise<void> {
+
     if (this.raffleForm.invalid) {
       this.raffleForm.markAllAsTouched();
       return;
     }
 
+    this.loading = true;
+
     const formValue = this.raffleForm.value;
     const photoDataUrl = this.registrationFlowService.idCardPhoto();
-    
+
     const payload = {
       idStatus: 1,
       numeroDocumento: formValue.numeroDocumento,
@@ -99,21 +109,39 @@ export class RaffleComponent implements OnInit {
       segundoNombre: formValue.segundoNombre,
       primerApellido: formValue.primerApellido,
       segundoApellido: formValue.segundoApellido,
-      fechaNacimiento: formValue.fechaNacimiento,
+      fechaNacimiento: '1990-01-01',
       email: formValue.email,
-      idCargo: 2,
-      telefono: formValue.telefonos, 
-      roles: [{ rol: "CLIENTE" }], 
-      sexo: formValue.sexo,
-      direccion: formValue.direccion,
-      pais: formValue.pais,
-      estado: +formValue.estado, 
-      ciudad: +formValue.ciudad, 
+      idCargo: 1,
+      telefono: [{
+        numero: formValue.telefono,
+      },
+      ],
+      roles: [{ rol: "CLIENTE" }],
+      sexo: 'M',
+      direccion: 'El Paraiso, Caracas',
+      pais: 1,
+      estado: +formValue.estado,
+      ciudad: +formValue.ciudad,
     };
-    
+
     console.log('Payload a enviar:', payload);
 
+    this.clientService.add(payload).subscribe({
+      next: ((resp) => {
+      
+        this.toastrService.success('Información registrada con éxito');
+        this.id = (resp as any).id;
+        console.log(resp);
+        console.log(this.id);
+      }),
+      error: (error) => {
+        this.loading = false;
+        this.toastrService.error('Error al registrar cliente:', error.error.msg);
+      },
+      complete: () => this.clientService.addPhoto(this.id)
+    });
+
     this.registrationFlowService.resetFlow();
-    this.router.navigate(['/profile']); 
+    this.router.navigate(['/profile']);
   }
 }
