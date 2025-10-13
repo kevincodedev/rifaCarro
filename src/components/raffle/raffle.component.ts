@@ -39,8 +39,8 @@ export class RaffleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //const email = this.registrationFlowService.userEmail();
-    const email = "mendozarangelkevindejesus@gmail.com";
+    const email = this.registrationFlowService.userEmail();
+    //const email = "mendozarangelkevindejesus@gmail.com";
     const photoBlob = this.registrationFlowService.idCardPhoto();
 
     if (photoBlob instanceof Blob) {
@@ -49,18 +49,32 @@ export class RaffleComponent implements OnInit {
     }
 
     this.raffleForm = this.fb.group({
-      tipoDocumentoIdentidad: ['V', Validators.required],
-      numeroDocumento: ['31654812', Validators.required],
+      tipoDocumentoIdentidad: ['', Validators.required],
+      numeroDocumento: ['', Validators.required],
       email: [email, [Validators.required, Validators.email]],
-      primerNombre: ['Kevin', Validators.required],
+      primerNombre: ['', Validators.required],
       segundoNombre: [''],
-      primerApellido: ['Mendoza', Validators.required],
+      primerApellido: ['', Validators.required],
       segundoApellido: [''],
       estado: [null, Validators.required],
       ciudad: [null, Validators.required],
-      direccion: ['El Paraiso, Caracas', Validators.required],
-      telefono: ['04241696699', Validators.required]
+      direccion: ['', Validators.required],
+      telefono: ['', Validators.required]
     });
+
+    // this.raffleForm = this.fb.group({
+    //   tipoDocumentoIdentidad: ['V', Validators.required],
+    //   numeroDocumento: ['31654812', Validators.required],
+    //   email: [email, [Validators.required, Validators.email]],
+    //   primerNombre: ['Kevin', Validators.required],
+    //   segundoNombre: [''],
+    //   primerApellido: ['Mendoza', Validators.required],
+    //   segundoApellido: [''],
+    //   estado: [null, Validators.required],
+    //   ciudad: [null, Validators.required],
+    //   direccion: ['El Paraiso, Caracas', Validators.required],
+    //   telefono: ['04241696699', Validators.required]
+    // });
 
     this.loadStates();
   }
@@ -115,8 +129,10 @@ export class RaffleComponent implements OnInit {
       },
       ],
       roles: [{ rol: "CLIENTE" }],
-      sexo: 'M',
-      direccion: 'El Paraiso, Caracas',
+      // sexo: 'M',
+      // direccion: 'El Paraiso, Caracas',
+      sexo: '',
+      direccion: '',
       pais: 1,
       estado: +formValue.estado,
       ciudad: +formValue.ciudad,
