@@ -9,19 +9,16 @@
         <span class="font-semibold">Correo:</span> {{ authService.userEmail() }}
       </p>
       <p class="text-gray-600 mt-1">
-        <span class="font-semibold">Nombre:</span> {{ authService.userName() }}
+        <span class="font-semibold">Nombre:</span> {{ fullName() }}
       </p>
     </div>
   </div>
 
   <div class="mb-8">
     <h2 class="text-xl font-bold text-gray-800 mb-3">Mis Tickets de Sorteo</h2>
-    <div class="bg-gray-50 rounded-lg p-4 h-48 overflow-y-auto border">
-      <ul class="space-y-2">
-        @for(ticket of tickets(); track ticket) {
-          <li class="p-3 bg-white border rounded-md shadow-sm text-gray-700">{{ ticket }}</li>
-        }
-      </ul>
+    <div class="bg-gray-50 rounded-lg p-4 border text-center">
+      <p class="text-5xl font-bold text-gray-800">{{ ticketCount() }}</p>
+      <p class="text-gray-600 mt-2">Tickets Totales</p>
     </div>
   </div>
 

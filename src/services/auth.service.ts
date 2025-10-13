@@ -29,6 +29,9 @@ export class AuthService {
         this.authToken.set(response.token);
         this.isAuthenticated.set(true);
         this.userEmail.set(email);
+
+
+
         this.router.navigate(['/profile']); 
         return true;
       }
@@ -66,4 +69,3 @@ export class AuthService {
     this.userName.set(name);
   }
 }
-
