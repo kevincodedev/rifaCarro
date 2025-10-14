@@ -16,7 +16,9 @@ export class ProfileComponent implements OnInit {
   facturaService = inject(FacturaService);
 
   fullName = signal<string>('');
+  nroDocumentoIdentidad = signal<string>('');
   ticketCount = signal<number>(0);
+  facturas = signal<Factura[]>([]);
 
   ngOnInit(): void {
     const documentId = this.authService.userEmail();
@@ -25,8 +27,10 @@ export class ProfileComponent implements OnInit {
         next: (facturas: Factura[]) => {
           if (facturas.length > 0) {
             this.fullName.set(facturas[0].cliente.nombreCompleto);
+            this.nroDocumentoIdentidad.set(facturas[0].cliente.nroDocumentoIdentidad);
             const totalTickets = facturas.reduce((sum, f) => sum + f.tickets, 0);
             this.ticketCount.set(totalTickets);
+            this.facturas.set(facturas);
           }
         },
         error: (err) => console.error('Error fetching factura:', err)

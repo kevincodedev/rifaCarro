@@ -7,11 +7,23 @@ import { environment } from '../environments/environment';
 export interface Factura {
   id: number;
   numero: string;
+  fecha: string;
+  hora: string;
+  monto: string;
+  montoMin: string;
+  tasa: string;
+  print: number;
   tickets: number;
   cliente: {
     id: number;
-    nombreCompleto: string;
+    tipoDocumentoIdentidad: string;
     nroDocumentoIdentidad: string;
+    nombreCompleto: string;
+    fotoCedula: string;
+  };
+  local: {
+    id: number;
+    nombre: string;
   };
 }
 
