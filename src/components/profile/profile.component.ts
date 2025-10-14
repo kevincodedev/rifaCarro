@@ -2,18 +2,27 @@ import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@ang
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FacturaService, Factura } from '../../services/factura.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, AsyncPipe } from '@angular/common';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, AsyncPipe],
   templateUrl: './profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit {
+  private breakpointObserver = inject(BreakpointObserver);
   authService = inject(AuthService);
   facturaService = inject(FacturaService);
+
+  isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
 
   fullName = signal<string>('');
   nroDocumentoIdentidad = signal<string>('');
