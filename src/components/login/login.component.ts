@@ -16,15 +16,23 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent {
   email = signal('');
   password = signal('');
+  isLoading = signal(false);
 
   private authService = inject(AuthService);
   private toastr = inject(ToastrService);
 
   async login(): Promise<void> {
-    if (this.email() && this.password()) {
-      const success = await this.authService.login(this.email(), this.password());
-      if (!success) {
-        this.toastr.error('Correo o contraseña incorrectos.');
+    if (this.email() && this.password() && !this.isLoading()) {
+      this.isLoading.set(true);
+      try {
+        const success = await this.authService.login(this.email(), this.password());
+        if (!success) {
+          this.toastr.error('Correo o contraseña incorrectos.');
+        }
+      } catch (error) {
+        this.toastr.error('Ocurrió un error durante el inicio de sesión.');
+      } finally {
+        this.isLoading.set(false);
       }
     }
   }

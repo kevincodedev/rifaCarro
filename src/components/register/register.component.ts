@@ -16,20 +16,28 @@ export class RegisterComponent {
   
   registerError = signal<string | null>(null);
   registerSuccess = signal<boolean>(false);
+  isLoading = signal<boolean>(false);
 
   private authService = inject(AuthService);
 
   async register(): Promise<void> {
-    if (this.email()) {
+    if (this.email() && !this.isLoading()) {
+      this.isLoading.set(true);
       this.registerError.set(null);
       this.registerSuccess.set(false);
 
-      const success = await this.authService.register(this.email());
-      
-      if (success) {
-        this.registerSuccess.set(true);
-      } else {
-        this.registerError.set('El correo electrónico ya está en uso o no es válido.');
+      try {
+        const success = await this.authService.register(this.email());
+        
+        if (success) {
+          this.registerSuccess.set(true);
+        } else {
+          this.registerError.set('El correo electrónico ya está en uso o no es válido.');
+        }
+      } catch (error) {
+        this.registerError.set('Ocurrió un error durante el registro.');
+      } finally {
+        this.isLoading.set(false);
       }
     }
   }

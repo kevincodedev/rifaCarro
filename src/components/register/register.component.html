@@ -19,9 +19,13 @@
       <p class="text-red-500 text-sm mb-4">{{ registerError() }}</p>
     }
 
-    <button type="submit" [disabled]="!registerForm.valid"
+    <button type="submit" [disabled]="!registerForm.valid || isLoading()"
             class="w-full bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition disabled:bg-red-300">
-      Registrarme
+      @if (isLoading()) {
+        <span>Registrando...</span>
+      } @else {
+        <span>Registrarme</span>
+      }
     </button>
   </form>
   <div class="mt-6 text-center">
