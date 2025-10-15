@@ -28,21 +28,28 @@ export class ProfileComponent implements OnInit {
   nroDocumentoIdentidad = signal<string>('');
   ticketCount = signal<number>(0);
   facturas = signal<Factura[]>([]);
+  hasFacturas = signal<boolean>(false);
 
   ngOnInit(): void {
-    const documentId = this.authService.userEmail();
-    if (documentId) {
-      this.facturaService.getFacturaByDocumentId(documentId).subscribe({
-        next: (facturas: Factura[]) => {
-          if (facturas.length > 0) {
-            this.fullName.set(facturas[0].cliente.nombreCompleto);
-            this.nroDocumentoIdentidad.set(facturas[0].cliente.nroDocumentoIdentidad);
-            const totalTickets = facturas.reduce((sum, f) => sum + f.tickets, 0);
+    const email = this.authService.userEmail();
+    if (email) {
+      this.facturaService.getFacturaByEmail(email).subscribe({
+        next: (response: any) => {
+          if (Array.isArray(response) && response.length > 0) {
+            this.hasFacturas.set(true);
+            this.fullName.set(response[0].cliente.nombreCompleto);
+            this.nroDocumentoIdentidad.set(response[0].cliente.nroDocumentoIdentidad);
+            const totalTickets = response.reduce((sum, f) => sum + f.tickets, 0);
             this.ticketCount.set(totalTickets);
-            this.facturas.set(facturas);
+            this.facturas.set(response);
+          } else {
+            this.hasFacturas.set(false);
           }
         },
-        error: (err) => console.error('Error fetching factura:', err)
+        error: (err) => {
+          console.error('Error fetching factura:', err);
+          this.hasFacturas.set(false);
+        }
       });
     }
   }

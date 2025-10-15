@@ -33,7 +33,7 @@ export interface Factura {
 export class FacturaService {
   private readonly http = inject(HttpClient);
 
-  getFacturaByDocumentId(documentId: string): Observable<Factura[]> {
-    return this.http.get<Factura[]>(`${environment.apiUrl}/factura/${documentId}`);
+  getFacturaByEmail(email: string): Observable<Factura[]> {
+    return this.http.get<Factura[]>(`${environment.apiUrl}/factura/${email}`);
   }
 }

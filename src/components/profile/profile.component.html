@@ -8,12 +8,14 @@
         <p class="text-gray-600">
           <span class="font-semibold">Correo:</span> {{ authService.userEmail() }}
         </p>
-        <p class="text-gray-600 mt-1">
-          <span class="font-semibold">Nombre:</span> {{ fullName() }}
-        </p>
-        <p class="text-gray-600 mt-1">
-          <span class="font-semibold">Cédula:</span> {{ nroDocumentoIdentidad() }}
-        </p>
+        <ng-container *ngIf="hasFacturas()">
+          <p class="text-gray-600 mt-1">
+            <span class="font-semibold">Nombre:</span> {{ fullName() }}
+          </p>
+          <p class="text-gray-600 mt-1">
+            <span class="font-semibold">Cédula:</span> {{ nroDocumentoIdentidad() }}
+          </p>
+        </ng-container>
       </div>
     </div>
 
@@ -29,53 +31,58 @@
     <div class="mb-8">
       <h2 class="text-xl font-bold text-gray-800 mb-3">Mis Facturas</h2>
       <div class="bg-gray-50 rounded-lg p-4">
-        <div *ngIf="!data.isHandset" class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-100">
-              <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Local
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Factura
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Fecha
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Monto
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Tickets
-                </th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              @for (factura of facturas(); track factura.id) {
+        <ng-container *ngIf="hasFacturas(); else noFacturas">
+          <div *ngIf="!data.isHandset" class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-100">
                 <tr>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ factura.local.nombre }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ factura.numero }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ factura.fecha }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ factura.monto }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ factura.tickets }}</td>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Local
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Factura
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Fecha
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Monto
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Tickets
+                  </th>
                 </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-        <div *ngIf="data.isHandset">
-          @for (factura of facturas(); track factura.id) {
-            <div class="bg-white rounded-lg shadow mb-4 p-4">
-              <div class="flex justify-between items-center mb-2">
-                <span class="font-bold text-gray-900">{{ factura.local.nombre }}</span>
-                <span class="text-sm text-gray-500">{{ factura.fecha }}</span>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                @for (factura of facturas(); track factura.id) {
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ factura.local.nombre }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ factura.numero }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ factura.fecha }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ factura.monto }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ factura.tickets }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="data.isHandset">
+            @for (factura of facturas(); track factura.id) {
+              <div class="bg-white rounded-lg shadow mb-4 p-4">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-bold text-gray-900">{{ factura.local.nombre }}</span>
+                  <span class="text-sm text-gray-500">{{ factura.fecha }}</span>
+                </div>
+                <p class="text-sm text-gray-600">Factura: {{ factura.numero }}</p>
+                <p class="text-sm text-gray-600">Monto: {{ factura.monto }}</p>
+                <p class="text-sm text-gray-600">Tickets: {{ factura.tickets }}</p>
               </div>
-              <p class="text-sm text-gray-600">Factura: {{ factura.numero }}</p>
-              <p class="text-sm text-gray-600">Monto: {{ factura.monto }}</p>
-              <p class="text-sm text-gray-600">Tickets: {{ factura.tickets }}</p>
-            </div>
-          }
-        </div>
+            }
+          </div>
+        </ng-container>
+        <ng-template #noFacturas>
+          <p class="text-center text-gray-600">Para registrar facturas, diríjase a la taquilla correspondiente.</p>
+        </ng-template>
       </div>
     </div>
 
