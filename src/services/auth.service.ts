@@ -43,16 +43,14 @@ export class AuthService {
     }
   }
 
-  async register(email: string): Promise<boolean> {
+  async register(email: string): Promise<any> {
     try {
-      await firstValueFrom(
+      return await firstValueFrom(
         this.http.post(`${environment.apiUrl}/validate/email`, { email })
       );
-      this.router.navigate(['/login']);
-      return true;
     } catch (error) {
       console.error('Registration failed', error);
-      return false;
+      throw error;
     }
   }
 
