@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class RegistrationFlowService {
   userEmail = signal<string | null>(null);
   idCardPhoto = signal<Blob | null>(null);
+  canAccessEmailSent = signal<boolean>(false);
 
 constructor(protected http: HttpClient,
    ) {
@@ -16,6 +17,10 @@ constructor(protected http: HttpClient,
 
   canAccessRegistrationFlow(): boolean {
     return !!this.userEmail();
+  }
+
+  setCanAccessEmailSent(canAccess: boolean): void {
+    this.canAccessEmailSent.set(canAccess);
   }
 
   add(formData: any) {
@@ -35,5 +40,6 @@ constructor(protected http: HttpClient,
   resetFlow(): void {
     this.userEmail.set(null);
     this.idCardPhoto.set(null);
+    this.canAccessEmailSent.set(false);
   }
 }
