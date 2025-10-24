@@ -30,6 +30,7 @@ export class RaffleComponent implements OnInit {
   citiesOfSelectedState = signal<City[]>([]);
   loading = false;
   id: number = 0;
+  phoneCodes = ['0414', '0424', '0412', '0422', '0416'];
 
   constructor(
     private clientService: RegistrationFlowService,
@@ -39,8 +40,8 @@ export class RaffleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const email = this.registrationFlowService.userEmail();
-    //const email = "mendozarangelkevindejesus@gmail.com";
+    //const email = this.registrationFlowService.userEmail();
+    const email = "mendozarangelkevindejesus@gmail.com";
     const photoBlob = this.registrationFlowService.idCardPhoto();
 
     if (photoBlob instanceof Blob) {
@@ -59,7 +60,8 @@ export class RaffleComponent implements OnInit {
       estado: [null, Validators.required],
       ciudad: [null, Validators.required],
       direccion: ['', Validators.required],
-      telefono: ['', Validators.required]
+      phoneCode: ['', Validators.required],
+      phoneNumber: ['', Validators.required]
     });
 
     // this.raffleForm = this.fb.group({
@@ -112,6 +114,7 @@ export class RaffleComponent implements OnInit {
     this.loading = true;
 
     const formValue = this.raffleForm.value;
+    const fullPhoneNumber = `${formValue.phoneCode}${formValue.phoneNumber}`;
 
     const payload = {
       idStatus: 1,
@@ -125,14 +128,12 @@ export class RaffleComponent implements OnInit {
       email: formValue.email,
       idCargo: 1,
       telefono: [{
-        numero: formValue.telefono,
+        numero: fullPhoneNumber,
       },
       ],
       roles: [{ rol: "CLIENTE" }],
-      // sexo: 'M',
-      // direccion: 'El Paraiso, Caracas',
       sexo: '',
-      direccion: '',
+      direccion: formValue.direccion,
       pais: 1,
       estado: +formValue.estado,
       ciudad: +formValue.ciudad,

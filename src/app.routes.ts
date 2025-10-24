@@ -17,21 +17,21 @@ export const APP_ROUTES: Routes = [
   { path: 'email-sent', component: EmailSentComponent, canActivate: [emailSentGuard] },
 
 
-  { path: 'camera-scan', component: CameraScanDocumentComponent, canActivate: [registrationGuard] },
-  //{ path: 'camera-scan', component: CameraScanDocumentComponent },
+  // { path: 'camera-scan', component: CameraScanDocumentComponent, canActivate: [registrationGuard] },
+  { path: 'camera-scan', component: CameraScanDocumentComponent },
 
-  { path: 'raffle', component: RaffleComponent, canActivate: [registrationGuard] },
-  //{ path: 'raffle', component: RaffleComponent },
+  // { path: 'raffle', component: RaffleComponent, canActivate: [registrationGuard] },
+  { path: 'raffle', component: RaffleComponent },
 
 
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
 
 
-  // { path: '', redirectTo: '/camera-scan', pathMatch: 'full' },
-  // { path: '**', redirectTo: '/camera-scan' }
+  { path: '', redirectTo: '/camera-scan', pathMatch: 'full' },
+  { path: '**', redirectTo: '/camera-scan' }
 
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '/login' }
+  // { path: '', redirectTo: '/login', pathMatch: 'full' },
+  // { path: '**', redirectTo: '/login' }
 
 
 ];
