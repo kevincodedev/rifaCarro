@@ -40,8 +40,8 @@ export class RaffleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //const email = this.registrationFlowService.userEmail();
-    const email = "mendozarangelkevindejesus@gmail.com";
+    const email = this.registrationFlowService.userEmail();
+    //const email = "mendozarangelkevindejesus@gmail.com";
     const photoBlob = this.registrationFlowService.idCardPhoto();
 
     if (photoBlob instanceof Blob) {
