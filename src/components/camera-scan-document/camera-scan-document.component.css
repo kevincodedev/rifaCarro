@@ -1,9 +1,7 @@
-/* Estilos específicos para el componente de la cámara */
 :host {
   display: block;
   width: 100%;
 }
-
 #camera-container {
   position: relative;
   width: 100%;
@@ -12,29 +10,24 @@
   overflow: hidden;
   border-radius: 1rem;
 }
-
 #camera-feed {
   width: 100%;
   height: auto;
 }
-
 #overlay {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 85.6mm; /* Ancho estándar de una tarjeta de identidad */
-  height: 53.98mm; /* Alto estándar de una tarjeta de identidad */
+  width: 85.6mm; 
+  height: 53.98mm; 
   max-width: 85%;
   max-height: 85%;
   transform: translate(-50%, -50%);
   border: 3px dashed white;
   border-radius: 10px;
-  /* Sombra exterior que oscurece el fondo */
   box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
 }
-
 #photo-canvas {
-  /* Mantenemos la proporción de la foto capturada */
   max-width: 100%;
   height: auto;
 }
