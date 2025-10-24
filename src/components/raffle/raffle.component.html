@@ -64,7 +64,7 @@
           </select>
         </div>
         <div>
-          <label for="ciudad" class="block text-sm font-medium text-gray-700">Ciudad/Municipio</label>
+          <label for="ciudad" class="block text-sm font-medium text-gray-700">Parroquia/Sector</label>
           <select id="ciudad" formControlName="ciudad" class="input-style">
             <option [ngValue]="null" disabled>Selecciona una ciudad</option>
              @for(city of citiesOfSelectedState(); track city.id) {
