@@ -1,0 +1,147 @@
+/* --- Contenedor Principal (Landing) --- */
+
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  text-align: center;
+  
+  /* ¡IMPORTANTE! Reemplaza esta URL por la imagen del auto */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), 
+                    url('https://images.pexels.com/photos/3764984/pexels-photo-3764984.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  
+  background-size: cover; /* Cubre todo el contenedor */
+  background-position: center center; /* Centra la imagen */
+  
+  color: white; /* Hace que todo el texto sea blanco por defecto */
+  padding: 20px;
+  box-sizing: border-box; /* Asegura que el padding no desborde */
+}
+
+/* --- Contenedor del Texto --- */
+
+.content-wrapper {
+  background-color: rgba(0, 0, 0, 0.3); /* Un fondo semi-transparente sutil */
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 600px; /* Evita que el texto sea demasiado ancho */
+  width: 100%; /* Ocupa el ancho disponible hasta el max-width */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Sombra para dar profundidad */
+  backdrop-filter: blur(5px); /* Efecto "vidrio esmerilado" */
+  -webkit-backdrop-filter: blur(5px); /* Para Safari */
+  box-sizing: border-box; /* Asegura que el padding esté dentro del width */
+}
+
+/* --- Tipografía --- */
+
+.content-wrapper h1 {
+  font-size: 2.8rem; /* Tamaño de fuente grande */
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.content-wrapper p {
+  font-size: 1.25rem; /* Texto descriptivo más grande */
+  margin-bottom: 30px;
+  font-weight: 300;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* --- Botón (Llamada a la Acción) --- */
+
+.btn-cta {
+  padding: 15px 35px; /* Más grande y fácil de clickear */
+  background-color: #f0b90b; /* Un color dorado/amarillo llamativo */
+  color: #111; /* Texto oscuro para contrastar con el botón */
+  text-decoration: none;
+  border-radius: 50px; /* Bordes redondeados (estilo "píldora") */
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-transform: uppercase; /* MAYÚSCULAS para la acción */
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: pulse-glow 2s infinite;
+  display: inline-block; /* Asegura que se apliquen bien los estilos de 'caja' */
+}
+
+/* Efecto al pasar el mouse (hover) */
+.btn-cta:hover {
+  background-color: #ffca28; /* Un poco más brillante al pasar el mouse */
+  transform: scale(1.05); /* Ligeramente más grande */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  animation: none; /* Detiene la animación de pulso al hacer hover */
+}
+
+/* --- Animación de Pulso/Brillo --- */
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 4px 15px rgba(240, 185, 11, 0.3);
+  }
+  50% {
+    /* El brillo se expande y se hace más intenso */
+    box-shadow: 0 6px 25px rgba(240, 185, 11, 0.6);
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(240, 185, 11, 0.3);
+  }
+}
+
+
+/* ==================================================================
+   ESTILOS RESPONSIVE (Móviles y Tablets)
+==================================================================
+*/
+
+/* --- Para tablets (ej. iPads en vertical) y móviles grandes --- */
+@media (max-width: 768px) {
+  .content-wrapper {
+    /* Reducimos el padding para dar más espacio al texto */
+    padding: 30px; 
+  }
+
+  .content-wrapper h1 {
+    font-size: 2.4rem; /* Hacemos el título un poco más pequeño */
+  }
+
+  .content-wrapper p {
+    font-size: 1.15rem; /* Hacemos el párrafo un poco más pequeño */
+  }
+}
+
+/* --- Para móviles (pantallas pequeñas) --- */
+@media (max-width: 480px) {
+  
+  .landing-container {
+    /* El padding de 20px original era mucho, lo reducimos */
+    padding: 10px;
+  }
+
+  .content-wrapper {
+    padding: 25px 20px; /* Menos padding horizontal */
+    /* Quitamos el blur en móviles por si afecta el rendimiento */
+    backdrop-filter: none; 
+    -webkit-backdrop-filter: none;
+    background-color: rgba(0, 0, 0, 0.5); /* Un poco más sólido */
+  }
+
+  .content-wrapper h1 {
+    font-size: 2.0rem; /* Título notablemente más pequeño */
+  }
+
+  .content-wrapper p {
+    font-size: 1rem; /* Texto de tamaño estándar */
+    margin-bottom: 25px;
+  }
+
+  .btn-cta {
+    padding: 14px 30px; /* Botón un poco más pequeño */
+    font-size: 1rem;
+  }
+}

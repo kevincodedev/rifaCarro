@@ -31,6 +31,16 @@ export class RaffleComponent implements OnInit {
   loading = false;
   id: number = 0;
   phoneCodes = ['0414', '0424', '0412', '0422', '0416'];
+  isModalVisible = false;
+
+  openModal() {
+    this.isModalVisible = true;
+  }
+
+  closeModal() {
+    this.isModalVisible = false;
+  }
+
 
   constructor(
     private clientService: RegistrationFlowService,
@@ -61,7 +71,8 @@ export class RaffleComponent implements OnInit {
       ciudad: [null, Validators.required],
       direccion: ['', Validators.required],
       phoneCode: ['', Validators.required],
-      phoneNumber: ['', Validators.required]
+      phoneNumber: ['', Validators.required],
+      terminos: [false, Validators.requiredTrue]
     });
 
     // this.raffleForm = this.fb.group({

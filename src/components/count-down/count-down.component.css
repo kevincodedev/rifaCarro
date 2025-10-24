@@ -1,0 +1,14 @@
+/* Estilos globales mínimos. 
+        Tailwind se encarga de casi todo. 
+      */
+      :host {
+        display: block;
+        font-family: 'Inter', sans-serif;
+      }
+      
+      html, body {
+        min-height: 100vh;
+        margin: 0;
+        /* Fondo de respaldo por si Tailwind no carga */
+        background-color: #0F172A; 
+      }
