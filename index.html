@@ -1,51 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Sorteo Navideño</title>
+  <title>Sorteo CC El Recreo - Pafar</title>
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?a&family=Mountains+of+Christmas:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?a&family=Montserrat:wght@400;500;700&family=Mountains+of+Christmas:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #0d1a2e;
+      background-image: url('https://platformsorteoregistro.pafar.com.ve/src/image/fondo-pagina-web.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       color: #333;
       font-family: 'Roboto', sans-serif;
     }
+    .font-montserrat {
+      font-family: 'Montserrat', sans-serif;
+    }
     .font-festive {
       font-family: 'Mountains of Christmas', cursive;
-    }
-    .starry-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background: #0d1a2e;
-        overflow: hidden;
-    }
-    .stars {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        display: block;
-        background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="1" fill="white"/><circle cx="50" cy="50" r="0.5" fill="white"/><circle cx="75" cy="75" r="1" fill="white"/><circle cx="10" cy="80" r="0.5" fill="white"/><circle cx="90" cy="20" r="1" fill="white"/></svg>') repeat;
-        background-size: 200px 200px;
-        animation: twinkle 10s linear infinite;
-    }
-    @keyframes twinkle {
-        from { background-position: 0 0; }
-        to { background-position: -200px 200px; }
     }
   </style>
 <script type="importmap">
@@ -70,8 +48,12 @@
 </head>
 <body>
   <app-root></app-root>
+  
   <footer class="text-center py-10 border-t border-gray-800/50 mt-16">
-            <p class="text-gray-500"><a href="https://enlacesmultiples.pafar.com.ve/universodesoluciones/">&copy; 2025 PAFAR</a> Hecho a mano con ♡<br>Todos los derechos reservados</p>
+            <p class="text-white text-sm text-gray500"><a href="https://enlacesmultiples.pafar.com.ve/universodesoluciones/">&copy; 2025 PAFAR Hecho a mano con ♡<br>Todos los derechos reservados</a><br>
+
+            Aprobado por la <a href="https://www.sundde.gob.ve/" class="underline">SUNDDE</a></p>
+            </p>
   </footer>
 </body>
 </html>
