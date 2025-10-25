@@ -9,15 +9,15 @@
   text-align: center;
   
   /* ¡IMPORTANTE! Reemplaza esta URL por la imagen del auto */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), 
-                    url('https://images.pexels.com/photos/3764984/pexels-photo-3764984.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), 
+                    url('https://platformsorteoregistro.pafar.com.ve/src/image/photo.jpg');
   
-  background-size: cover; /* Cubre todo el contenedor */
-  background-position: center center; /* Centra la imagen */
+  background-size: cover;
+  background-position: center center;
   
-  color: white; /* Hace que todo el texto sea blanco por defecto */
+  color: white;
   padding: 20px;
-  box-sizing: border-box; /* Asegura que el padding no desborde */
+  box-sizing: border-box;
 }
 
 /* --- Contenedor del Texto --- */

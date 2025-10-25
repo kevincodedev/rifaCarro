@@ -30,7 +30,7 @@ export class RaffleComponent implements OnInit {
   citiesOfSelectedState = signal<City[]>([]);
   loading = false;
   id: number = 0;
-  phoneCodes = ['0414', '0424', '0412', '0422', '0416'];
+  phoneCodes = ['0414', '0424', '0412', '0422', '0416', '0426'];
   isModalVisible = false;
 
   openModal() {
@@ -137,7 +137,7 @@ export class RaffleComponent implements OnInit {
       segundoApellido: formValue.segundoApellido,
       fechaNacimiento: '1990-01-01',
       email: formValue.email,
-      idCargo: 1,
+      idCargo: 4,
       telefono: [{
         numero: fullPhoneNumber,
       },
