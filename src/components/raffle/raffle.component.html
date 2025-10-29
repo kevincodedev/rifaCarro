@@ -31,7 +31,7 @@
         </div>
         <div>
           <label for="doc-number" class="block text-sm font-medium text-gray-700">Nº de Documento</label>
-          <input type="text" id="doc-number" formControlName="numeroDocumento" class="input-style">
+          <input type="text" id="doc-number" formControlName="numeroDocumento" class="input-style" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         </div>
 
         <div>
